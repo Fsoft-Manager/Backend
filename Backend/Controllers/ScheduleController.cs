@@ -118,7 +118,7 @@ namespace Backend.Controllers
             }
         }
 
-        public DateTime? GetCellValueAsDate(ExcelWorksheet worksheet, int row, int column)
+        private DateTime? GetCellValueAsDate(ExcelWorksheet worksheet, int row, int column)
         {
             var cellValue = worksheet.Cells[row, column].Value;
 

@@ -16,8 +16,8 @@ namespace Backend.Service.ScheduleService
         {
 			try
 			{
-                var result = _scheduleRepository.InsertDataSchedule(schedules);
-                return null;
+                var result = await _scheduleRepository.InsertDataSchedule(schedules);
+                return result;
 			}
 			catch (Exception ex)
 			{

@@ -6,7 +6,7 @@ using Microsoft.EntityFrameworkCore.Migrations;
 namespace Backend.Migrations
 {
     /// <inheritdoc />
-    public partial class DB : Migration
+    public partial class InitDatabase : Migration
     {
         /// <inheritdoc />
         protected override void Up(MigrationBuilder migrationBuilder)
@@ -82,7 +82,6 @@ namespace Backend.Migrations
                     PasswordSalt = table.Column<byte[]>(type: "varbinary(max)", nullable: false),
                     Gender = table.Column<bool>(type: "bit", nullable: false),
                     RoleId = table.Column<int>(type: "int", nullable: false),
-                    ClassId = table.Column<int>(type: "int", nullable: false),
                     CourseId = table.Column<int>(type: "int", nullable: false)
                 },
                 constraints: table =>
@@ -109,13 +108,12 @@ namespace Backend.Migrations
                     Id = table.Column<int>(type: "int", nullable: false)
                         .Annotation("SqlServer:Identity", "1, 1"),
                     Topic = table.Column<string>(type: "nvarchar(max)", nullable: false),
-                    FormatType = table.Column<string>(type: "nvarchar(max)", nullable: false),
                     FromDate = table.Column<DateTime>(type: "datetime2", nullable: false),
                     ToDate = table.Column<DateTime>(type: "datetime2", nullable: false),
+                    LearningTime = table.Column<double>(type: "float", nullable: false),
                     CourseId = table.Column<int>(type: "int", nullable: false),
-                    TypeId = table.Column<int>(type: "int", nullable: false),
-                    TypeOfTrainId = table.Column<int>(type: "int", nullable: false),
-                    FormatTypeId = table.Column<int>(type: "int", nullable: true)
+                    FormatTypeId = table.Column<int>(type: "int", nullable: false),
+                    TypeOfTrainId = table.Column<int>(type: "int", nullable: false)
                 },
                 constraints: table =>
                 {
@@ -130,7 +128,8 @@ namespace Backend.Migrations
                         name: "FK_Schedules_FormatTypes_FormatTypeId",
                         column: x => x.FormatTypeId,
                         principalTable: "FormatTypes",
-                        principalColumn: "Id");
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Cascade);
                     table.ForeignKey(
                         name: "FK_Schedules_TypeOfTrains_TypeOfTrainId",
                         column: x => x.TypeOfTrainId,

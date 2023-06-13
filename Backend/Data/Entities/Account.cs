@@ -28,12 +28,17 @@ namespace Backend.Data.Entities
         public byte[] PasswordHash { get; set; }
         public byte[] PasswordSalt { get; set; }
         public bool Gender { get; set; } = true;
+
+
         [Required]
         [Range(0, 100)]
         public int RoleId { get; set; }
         public virtual Role Role { get; set; }
-        public int ClassId { get; set; }
+
+        public int CourseId { get; set; }
         public virtual Course Course { get; set; }
+
+
         public virtual List<Schedule> Schedules { get; set; }
     }
 }
