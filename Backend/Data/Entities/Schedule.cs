@@ -1,4 +1,7 @@
-﻿using System.ComponentModel.DataAnnotations;
+﻿using Microsoft.AspNetCore.Mvc.RazorPages.Infrastructure;
+using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
+using System.ComponentModel.DataAnnotations;
+using System.Reflection.Metadata.Ecma335;
 
 namespace Backend.Data.Entities
 {
@@ -6,11 +9,24 @@ namespace Backend.Data.Entities
     {
         [Key]
         public int Id { get; set; }
+
+        public string Topic { get; set; }
+
+        public string FormatType { get; set; }
+
+
         [Required]
-        public DateTime From { get; set; }
+        public DateTime FromDate { get; set; }
         [Required]
-        public DateTime To { get; set; }
-        public virtual Class Class { get; set; }
-        public virtual Account Mentor { get; set; }
+        public DateTime ToDate { get; set; }
+
+        // learning time = toDate - fromDate 
+        public double LearningTime => ((ToDate - FromDate).TotalHours) + (((ToDate - FromDate).TotalMinutes) /60);
+        public virtual Course Course { get; set; }
+        public virtual List<Account> Trainer { get; set; }
+
+        public int TypeId { get; set; }
+        public virtual TypeOfTrain TypeOfTrain { get; set; }
+
     }
 }

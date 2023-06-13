@@ -1,20 +1,23 @@
 {
   "format": 1,
   "restore": {
-    "D:\\FPT\\Mock2\\Backend\\Backend\\Backend.csproj": {}
+    "E:\\Fs\\MockProject2\\Code\\Backend\\Backend\\Backend.csproj": {}
   },
   "projects": {
-    "D:\\FPT\\Mock2\\Backend\\Backend\\Backend.csproj": {
+    "E:\\Fs\\MockProject2\\Code\\Backend\\Backend\\Backend.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "D:\\FPT\\Mock2\\Backend\\Backend\\Backend.csproj",
+        "projectUniqueName": "E:\\Fs\\MockProject2\\Code\\Backend\\Backend\\Backend.csproj",
         "projectName": "Backend",
-        "projectPath": "D:\\FPT\\Mock2\\Backend\\Backend\\Backend.csproj",
-        "packagesPath": "C:\\Users\\LENOVO\\.nuget\\packages\\",
-        "outputPath": "D:\\FPT\\Mock2\\Backend\\Backend\\obj\\",
+        "projectPath": "E:\\Fs\\MockProject2\\Code\\Backend\\Backend\\Backend.csproj",
+        "packagesPath": "C:\\Users\\Acer\\.nuget\\packages\\",
+        "outputPath": "E:\\Fs\\MockProject2\\Code\\Backend\\Backend\\obj\\",
         "projectStyle": "PackageReference",
+        "fallbackFolders": [
+          "C:\\Program Files\\dotnet\\sdk\\NuGetFallbackFolder"
+        ],
         "configFilePaths": [
-          "C:\\Users\\LENOVO\\AppData\\Roaming\\NuGet\\NuGet.Config",
+          "C:\\Users\\Acer\\AppData\\Roaming\\NuGet\\NuGet.Config",
           "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.Offline.config"
         ],
         "originalTargetFrameworks": [
@@ -40,6 +43,10 @@
         "net6.0": {
           "targetAlias": "net6.0",
           "dependencies": {
+            "EPPlus": {
+              "target": "Package",
+              "version": "[6.2.4, )"
+            },
             "Microsoft.AspNetCore.Authentication.JwtBearer": {
               "target": "Package",
               "version": "[6.0.5, )"
@@ -88,7 +95,7 @@
               "privateAssets": "all"
             }
           },
-          "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\7.0.201\\RuntimeIdentifierGraph.json"
+          "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\7.0.100\\RuntimeIdentifierGraph.json"
         }
       }
     }

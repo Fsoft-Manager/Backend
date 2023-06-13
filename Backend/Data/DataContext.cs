@@ -7,8 +7,12 @@ namespace Backend.Data
         public DataContext(DbContextOptions<DataContext> options) : base(options) { }
         public DbSet<Role> Roles { get; set; }
         public DbSet<Account> Accounts { get; set; }
-        public DbSet<Class> Classes { get; set; }
+        public DbSet<Course> Courses { get; set; }
+        public DbSet<TypeOfTrain> TypeOfTrains { get; set; }
+
+        public DbSet<FormatType> FormatTypes { get; set; }
         public DbSet<Schedule> Schedules { get; set; }
+
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
             base.OnModelCreating(modelBuilder);

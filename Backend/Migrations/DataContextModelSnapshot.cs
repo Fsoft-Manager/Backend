@@ -22,6 +22,21 @@ namespace Backend.Migrations
 
             SqlServerModelBuilderExtensions.UseIdentityColumns(modelBuilder);
 
+            modelBuilder.Entity("AccountSchedule", b =>
+                {
+                    b.Property<int>("SchedulesId")
+                        .HasColumnType("int");
+
+                    b.Property<int>("TrainerId")
+                        .HasColumnType("int");
+
+                    b.HasKey("SchedulesId", "TrainerId");
+
+                    b.HasIndex("TrainerId");
+
+                    b.ToTable("AccountSchedule");
+                });
+
             modelBuilder.Entity("Backend.Data.Entities.Account", b =>
                 {
                     b.Property<int>("Id")
@@ -35,6 +50,9 @@ namespace Backend.Migrations
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<int>("ClassId")
+                        .HasColumnType("int");
+
+                    b.Property<int>("CourseId")
                         .HasColumnType("int");
 
                     b.Property<DateTime?>("Dob")
@@ -78,14 +96,14 @@ namespace Backend.Migrations
 
                     b.HasKey("Id");
 
-                    b.HasIndex("ClassId");
+                    b.HasIndex("CourseId");
 
                     b.HasIndex("RoleId");
 
                     b.ToTable("Accounts");
                 });
 
-            modelBuilder.Entity("Backend.Data.Entities.Class", b =>
+            modelBuilder.Entity("Backend.Data.Entities.Course", b =>
                 {
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
@@ -105,7 +123,24 @@ namespace Backend.Migrations
 
                     b.HasKey("Id");
 
-                    b.ToTable("Classes");
+                    b.ToTable("Courses");
+                });
+
+            modelBuilder.Entity("Backend.Data.Entities.FormatType", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
+
+                    b.Property<string>("Name")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.HasKey("Id");
+
+                    b.ToTable("FormatTypes");
                 });
 
             modelBuilder.Entity("Backend.Data.Entities.Role", b =>
@@ -133,32 +168,80 @@ namespace Backend.Migrations
 
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
 
-                    b.Property<int>("ClassId")
+                    b.Property<int>("CourseId")
                         .HasColumnType("int");
 
-                    b.Property<DateTime>("From")
-                        .HasColumnType("datetime2");
+                    b.Property<string>("FormatType")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
 
-                    b.Property<int>("MentorId")
+                    b.Property<int?>("FormatTypeId")
                         .HasColumnType("int");
 
-                    b.Property<DateTime>("To")
+                    b.Property<DateTime>("FromDate")
                         .HasColumnType("datetime2");
+
+                    b.Property<DateTime>("ToDate")
+                        .HasColumnType("datetime2");
+
+                    b.Property<string>("Topic")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<int>("TypeId")
+                        .HasColumnType("int");
+
+                    b.Property<int>("TypeOfTrainId")
+                        .HasColumnType("int");
 
                     b.HasKey("Id");
 
-                    b.HasIndex("ClassId");
+                    b.HasIndex("CourseId");
 
-                    b.HasIndex("MentorId");
+                    b.HasIndex("FormatTypeId");
+
+                    b.HasIndex("TypeOfTrainId");
 
                     b.ToTable("Schedules");
                 });
 
+            modelBuilder.Entity("Backend.Data.Entities.TypeOfTrain", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
+
+                    b.Property<string>("Name")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.HasKey("Id");
+
+                    b.ToTable("TypeOfTrains");
+                });
+
+            modelBuilder.Entity("AccountSchedule", b =>
+                {
+                    b.HasOne("Backend.Data.Entities.Schedule", null)
+                        .WithMany()
+                        .HasForeignKey("SchedulesId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.HasOne("Backend.Data.Entities.Account", null)
+                        .WithMany()
+                        .HasForeignKey("TrainerId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+                });
+
             modelBuilder.Entity("Backend.Data.Entities.Account", b =>
                 {
-                    b.HasOne("Backend.Data.Entities.Class", "Class")
+                    b.HasOne("Backend.Data.Entities.Course", "Course")
                         .WithMany("Students")
-                        .HasForeignKey("ClassId")
+                        .HasForeignKey("CourseId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
@@ -168,45 +251,54 @@ namespace Backend.Migrations
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
-                    b.Navigation("Class");
+                    b.Navigation("Course");
 
                     b.Navigation("Role");
                 });
 
             modelBuilder.Entity("Backend.Data.Entities.Schedule", b =>
                 {
-                    b.HasOne("Backend.Data.Entities.Class", "Class")
+                    b.HasOne("Backend.Data.Entities.Course", "Course")
                         .WithMany("Schedules")
-                        .HasForeignKey("ClassId")
+                        .HasForeignKey("CourseId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
-                    b.HasOne("Backend.Data.Entities.Account", "Mentor")
+                    b.HasOne("Backend.Data.Entities.FormatType", null)
                         .WithMany("Schedules")
-                        .HasForeignKey("MentorId")
+                        .HasForeignKey("FormatTypeId");
+
+                    b.HasOne("Backend.Data.Entities.TypeOfTrain", "TypeOfTrain")
+                        .WithMany("Schedules")
+                        .HasForeignKey("TypeOfTrainId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
-                    b.Navigation("Class");
+                    b.Navigation("Course");
 
-                    b.Navigation("Mentor");
+                    b.Navigation("TypeOfTrain");
                 });
 
-            modelBuilder.Entity("Backend.Data.Entities.Account", b =>
-                {
-                    b.Navigation("Schedules");
-                });
-
-            modelBuilder.Entity("Backend.Data.Entities.Class", b =>
+            modelBuilder.Entity("Backend.Data.Entities.Course", b =>
                 {
                     b.Navigation("Schedules");
 
                     b.Navigation("Students");
                 });
 
+            modelBuilder.Entity("Backend.Data.Entities.FormatType", b =>
+                {
+                    b.Navigation("Schedules");
+                });
+
             modelBuilder.Entity("Backend.Data.Entities.Role", b =>
                 {
                     b.Navigation("Accounts");
+                });
+
+            modelBuilder.Entity("Backend.Data.Entities.TypeOfTrain", b =>
+                {
+                    b.Navigation("Schedules");
                 });
 #pragma warning restore 612, 618
         }
