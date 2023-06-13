@@ -14,7 +14,8 @@ namespace Backend.Data.Seed
             List<Role> roles = new List<Role>()
             {
                 new Role() {Name="admin"},
-                new Role() {Name="user"}
+                new Role() {Name="student"},
+                new Role() {Name="trainer"},
             };
             await context.Roles.AddRangeAsync(roles);
 

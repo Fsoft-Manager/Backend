@@ -1,5 +1,8 @@
 using Backend.Data;
 using Backend.Data.Seed;
+using Backend.Repository.BaseRepository;
+using Backend.Repository.ScheduleRepository;
+using Backend.Service.ScheduleService;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.IdentityModel.Tokens;
@@ -19,7 +22,6 @@ var services = builder.Services;
 services.AddCors(o =>
     o.AddPolicy("CorsPolicy", builder =>
         builder.WithOrigins("http://localhost:3000")
-            .WithOrigins("http://localhost:3001")
             .AllowAnyHeader()
             .AllowAnyMethod()));
 
@@ -30,6 +32,12 @@ services.AddDbContext<DataContext>
 {
     option.UseSqlServer(connectionString);
 }, ServiceLifetime.Transient);
+
+
+services.AddScoped<IScheduleRepository, ScheduleRepository>();
+services.AddScoped<IScheduleService, ScheduleService>();
+services.AddScoped(typeof(IBaseRepository<>), typeof(BaseRepository<>));
+
 
 services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
     .AddJwtBearer(options =>
@@ -49,14 +57,9 @@ services.AddSwaggerGen(c =>
 {
     c.SwaggerDoc("v1", new OpenApiInfo
     {
-        Title = "Swagger Star Cinema",
+        Title = "Swagger Mock Project 2",
         Version = "v1",
-        Description = "An ASP.NET Core Web API for project Star Cinema",
-        //Contact = new OpenApiContact
-        //{
-        //    Name = "Nguyen Trong Anh",
-        //    Url = new Uri("https://www.facebook.com/anhnguyen53")
-        //},
+        Description = "An ASP.NET Core Web API for Mock Project 2",
     });
     c.AddSecurityDefinition("Bearer", new OpenApiSecurityScheme
     {

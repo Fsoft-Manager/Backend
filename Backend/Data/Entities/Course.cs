@@ -2,7 +2,7 @@
 
 namespace Backend.Data.Entities
 {
-    public class Class
+    public class Course
     {
         [Key]
         public int Id { get; set; }

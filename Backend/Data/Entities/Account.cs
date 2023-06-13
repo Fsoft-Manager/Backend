@@ -33,7 +33,7 @@ namespace Backend.Data.Entities
         public int RoleId { get; set; }
         public virtual Role Role { get; set; }
         public int ClassId { get; set; }
-        public virtual Class Class { get; set; }
+        public virtual Course Course { get; set; }
         public virtual List<Schedule> Schedules { get; set; }
     }
 }
