@@ -12,8 +12,8 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace Backend.Migrations
 {
     [DbContext(typeof(DataContext))]
-    [Migration("20230612092541_DB")]
-    partial class DB
+    [Migration("20230613031410_InitDatabase")]
+    partial class InitDatabase
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -51,9 +51,6 @@ namespace Backend.Migrations
 
                     b.Property<string>("Avatar")
                         .HasColumnType("nvarchar(max)");
-
-                    b.Property<int>("ClassId")
-                        .HasColumnType("int");
 
                     b.Property<int>("CourseId")
                         .HasColumnType("int");
@@ -174,15 +171,14 @@ namespace Backend.Migrations
                     b.Property<int>("CourseId")
                         .HasColumnType("int");
 
-                    b.Property<string>("FormatType")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<int?>("FormatTypeId")
+                    b.Property<int>("FormatTypeId")
                         .HasColumnType("int");
 
                     b.Property<DateTime>("FromDate")
                         .HasColumnType("datetime2");
+
+                    b.Property<double>("LearningTime")
+                        .HasColumnType("float");
 
                     b.Property<DateTime>("ToDate")
                         .HasColumnType("datetime2");
@@ -190,9 +186,6 @@ namespace Backend.Migrations
                     b.Property<string>("Topic")
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
-
-                    b.Property<int>("TypeId")
-                        .HasColumnType("int");
 
                     b.Property<int>("TypeOfTrainId")
                         .HasColumnType("int");
@@ -267,9 +260,11 @@ namespace Backend.Migrations
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
-                    b.HasOne("Backend.Data.Entities.FormatType", null)
+                    b.HasOne("Backend.Data.Entities.FormatType", "FormatType")
                         .WithMany("Schedules")
-                        .HasForeignKey("FormatTypeId");
+                        .HasForeignKey("FormatTypeId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
 
                     b.HasOne("Backend.Data.Entities.TypeOfTrain", "TypeOfTrain")
                         .WithMany("Schedules")
@@ -278,6 +273,8 @@ namespace Backend.Migrations
                         .IsRequired();
 
                     b.Navigation("Course");
+
+                    b.Navigation("FormatType");
 
                     b.Navigation("TypeOfTrain");
                 });
